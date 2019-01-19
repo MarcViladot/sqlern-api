@@ -1,0 +1,2 @@
+class ConceptualmodelsController < ApplicationController
+end

@@ -1,0 +1,2 @@
+class GeneratedquizzsController < ApplicationController
+end
