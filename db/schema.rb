@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_19_182800) do
+ActiveRecord::Schema.define(version: 2019_01_20_191739) do
 
   create_table "answeredexercises", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "answered"
@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(version: 2019_01_19_182800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.bigint "conceptualmodel_id"
+    t.index ["conceptualmodel_id"], name: "index_exercises_on_conceptualmodel_id"
     t.index ["user_id"], name: "index_exercises_on_user_id"
   end
 
@@ -82,11 +84,11 @@ ActiveRecord::Schema.define(version: 2019_01_19_182800) do
 
   create_table "quizzexercises", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "exercise_id"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "quizz_id"
     t.index ["exercise_id"], name: "index_quizzexercises_on_exercise_id"
-    t.index ["user_id"], name: "index_quizzexercises_on_user_id"
+    t.index ["quizz_id"], name: "index_quizzexercises_on_quizz_id"
   end
 
   create_table "quizzs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -132,13 +134,14 @@ ActiveRecord::Schema.define(version: 2019_01_19_182800) do
   add_foreign_key "comments", "exercises"
   add_foreign_key "comments", "users"
   add_foreign_key "conceptualmodels", "users"
+  add_foreign_key "exercises", "conceptualmodels"
   add_foreign_key "exercises", "users"
   add_foreign_key "generatedquizzs", "quizzs"
   add_foreign_key "generatedquizzs", "users"
   add_foreign_key "joinanswereds", "answeredexercises"
   add_foreign_key "joinanswereds", "answeredquizzs"
   add_foreign_key "quizzexercises", "exercises"
-  add_foreign_key "quizzexercises", "users"
+  add_foreign_key "quizzexercises", "quizzs"
   add_foreign_key "quizzs", "users"
   add_foreign_key "topicexercises", "exercises"
   add_foreign_key "topicexercises", "topics"
