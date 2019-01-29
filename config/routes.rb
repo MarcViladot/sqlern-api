@@ -20,6 +20,15 @@ Rails.application.routes.draw do
   #Auth
   post 'authenticate', to: 'authentication#authenticate'
 
+  #Application
+  post 'create-tables', to: 'tables#create_tables'
+
+  #GeneratedQuizzs
+  get 'generatedquizzs/code/:code', to: 'generatedquizzs#show_by_code'
+
+  #Exercises
+  get 'exercises/set/:limit/:topics', to: 'exercises#index_set'
+
 
 
 end

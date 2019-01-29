@@ -1,12 +1,14 @@
 class GeneratedquizzsController < ApplicationController
 
+  #before_action :authenticate_request, only: [:show]
+
   def index
     generatedquizzs = Generatedquizz.all
     render json: generatedquizzs
   end
 
   def create
-    generatedquizz = Generatedquizz.new(x_params)
+    generatedquizz = Generatedquizz.new(generatedquizz_params)
     if generatedquizz.save
       render json: generatedquizz
     else
@@ -21,8 +23,11 @@ class GeneratedquizzsController < ApplicationController
   end
 
   def show
-    generatedquizz = Generatedquizz.find(params[:id])
-    render json: generatedquizz
+    @generatedquizz = Generatedquizz.find(params[:id])
+  end
+
+  def show_by_code
+    @generatedquizz = Generatedquizz.find_by_code(params[:code])
   end
 
   def update
@@ -37,7 +42,7 @@ class GeneratedquizzsController < ApplicationController
   private
 
   def generatedquizz_params
-    params.permit()
+    params.permit(:user_id, :quizz_id)
   end
 
 end

@@ -6,7 +6,24 @@ class AnsweredexercisesController < ApplicationController
   end
 
   def create
-    answeredexercise = Answeredexercise.new(answeredexercise_params)
+    connection = ActiveRecord::Base.establish_connection(:development)
+    solution = Exercise.find(params[:exercise_id]).solution
+    ActiveRecord::Base.remove_connection(connection)
+
+    base = ActiveRecord::Base.establish_connection(:development_aux)
+    begin
+      student_solution = base.connection.execute(params[:student_solution]).to_json
+      correct = base.connection.execute(solution).to_json == student_solution
+      ActiveRecord::Base.remove_connection(base)
+    rescue
+      correct = false
+    end
+    ActiveRecord::Base.establish_connection(:development)
+    answeredexercise = Answeredexercise.new('answered' => params[:student_solution],
+                                            'correct' => correct,
+                                            'exercise_id' => params[:exercise_id],
+                                            'user_id' => @current_user.id
+                                            )
     if answeredexercise.save
       render json: answeredexercise
     else

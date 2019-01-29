@@ -1,11 +1,9 @@
 class ApplicationController < ActionController::API
-
   include ActionController::ImplicitRender
   include ActionController::Helpers
 
-  before_action :set_current_user
-  helper_method :authenticate_confirmed_user, :authenticate_request
-
+  before_action :set_database, :set_current_user, :authenticate_request
+  helper_method :authenticate_confirmed_user
 
   def authenticate_confirmed_user
     unless @current_user.email_confirmed == true
@@ -14,6 +12,15 @@ class ApplicationController < ActionController::API
   end
 
   private
+
+  # def authenticate_admin
+  #   unless @current_user.role == 1
+  #     render json: {error: 'Not Authorized'}, status: :unauthorized
+  #   end
+  # end
+  def set_database
+    ActiveRecord::Base.establish_connection(:development)
+  end
 
   def set_current_user
     if decoded_auth_token
@@ -33,4 +40,5 @@ class ApplicationController < ActionController::API
       render json: {error: 'Not Authorized'}, status: :unauthorized
     end
   end
+
 end
