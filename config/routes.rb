@@ -27,7 +27,9 @@ Rails.application.routes.draw do
   get 'generatedquizzs/code/:code', to: 'generatedquizzs#show_by_code'
 
   #Exercises
+  get 'exercises/set/intelligent/', to: 'exercises#index_set_intelligent'
   get 'exercises/set/:limit/:topics', to: 'exercises#index_set'
+
 
 
 

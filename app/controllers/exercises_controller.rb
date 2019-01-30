@@ -29,6 +29,22 @@ class ExercisesController < ApplicationController
     @exercises = Exercise.joins(:topics).where("topics.name IN (?)", topics).sort_by { rand }.take(params[:limit].to_i)
   end
 
+  def index_set_intelligent
+    topics_hash = Hash.new
+    failed_exercises = Exercise.joins(:answeredexercises).where("answeredexercises.user_id = ? AND correct = false", @current_user.id)
+    failed_exercises.each do |exercise|
+      exercise.topics.each do |topic|
+        if !topics_hash.key?(topic.name)
+          topics_hash[topic.name] = 1
+        else
+          topics_hash[topic.name] += 1
+        end
+      end
+    end
+    topics = topics_hash.keys.take(3)
+    @exercises = Exercise.joins(:topics).where("topics.name IN (?)", topics).sort_by { rand }.take(25)
+  end
+
   def update
     exercise = Exercise.find(params[:id])
     if exercise.update_attributes(x_params)

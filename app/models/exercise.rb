@@ -5,5 +5,6 @@ class Exercise < ApplicationRecord
   belongs_to :user
   has_many :comments
   belongs_to :conceptualmodel
+  has_many :answeredexercises
 
 end
