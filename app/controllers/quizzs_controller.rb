@@ -1,5 +1,6 @@
 class QuizzsController < ApplicationController
 
+  api :GET, "/quizzs", "Show all the quizzs"
   def index
     quizzs = Quizz.all
     render json: quizzs

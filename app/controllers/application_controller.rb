@@ -11,6 +11,24 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def correct_exercise(exercise_id, student_solution)
+    connection = ActiveRecord::Base.establish_connection(:development)
+    solution = Exercise.find(params[:exercise_id]).solution
+    ActiveRecord::Base.remove_connection(connection)
+
+    base = ActiveRecord::Base.establish_connection(:development_aux)
+    begin
+      student_solution = base.connection.execute(params[:student_solution]).first
+      teacher_solution = base.connection.execute(solution).first
+      correct = student_solution.size == teacher_solution.size and ((student_solution - teacher_solution) + (teacher_solution - student_solution)).blank?
+      ActiveRecord::Base.remove_connection(base)
+    rescue
+      correct = false
+    end
+    ActiveRecord::Base.establish_connection(:development)
+    correct
+  end
+
   private
 
   # def authenticate_admin

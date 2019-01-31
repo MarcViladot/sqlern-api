@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  apipie
   resources :exercises
   resources :answeredexercises
   resources :answeredquizzs
@@ -20,8 +21,9 @@ Rails.application.routes.draw do
   #Auth
   post 'authenticate', to: 'authentication#authenticate'
 
-  #Application
+  #Tables
   post 'create-tables', to: 'tables#create_tables'
+  get 'show-tables', to: 'tables#show_tables'
 
   #GeneratedQuizzs
   get 'generatedquizzs/code/:code', to: 'generatedquizzs#show_by_code'

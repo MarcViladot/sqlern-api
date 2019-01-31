@@ -2,11 +2,16 @@ class GeneratedquizzsController < ApplicationController
 
   #before_action :authenticate_request, only: [:show]
 
+  api :GET, "/generatedquizzs", "Get all Generated Quizzs"
+  header 'Authorization', 'Auth header', :required => true
   def index
     generatedquizzs = Generatedquizz.all
     render json: generatedquizzs
   end
 
+  api :POST, "/generatedquizzs", "create Generated Quizz by id"
+  param :quizz_id, :number, desc: 'id of the quizz', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def create
     generatedquizz = Generatedquizz.new(generatedquizz_params)
     if generatedquizz.save
@@ -22,10 +27,16 @@ class GeneratedquizzsController < ApplicationController
     render json: generatedquizz
   end
 
+  api :GET, "/generatedquizzs/:id", "Find Generated Quizz by id"
+  param :id, :number, desc: 'id of the generated quizz', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def show
     @generatedquizz = Generatedquizz.find(params[:id])
   end
 
+  api :GET, "/generatedquizzs/:code", "Find Generated Quizz by code"
+  param :code, String, desc: 'code of the generated quizz', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def show_by_code
     @generatedquizz = Generatedquizz.find_by_code(params[:code])
   end
@@ -42,7 +53,7 @@ class GeneratedquizzsController < ApplicationController
   private
 
   def generatedquizz_params
-    params.permit(:user_id, :quizz_id)
+    params.permit(:quizz_id).merge(user_id: @current_user.id)
   end
 
 end

@@ -5,20 +5,12 @@ class AnsweredexercisesController < ApplicationController
     render json: answeredexercises
   end
 
+  api :POST, "/answeredexercises", "Correct exercise"
+  param :exercise_id, :number, desc: 'id of the exercise', :required => true
+  param :student_solution, String, desc: 'solution provided by the student', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def create
-    connection = ActiveRecord::Base.establish_connection(:development)
-    solution = Exercise.find(params[:exercise_id]).solution
-    ActiveRecord::Base.remove_connection(connection)
-
-    base = ActiveRecord::Base.establish_connection(:development_aux)
-    begin
-      student_solution = base.connection.execute(params[:student_solution]).to_json
-      correct = base.connection.execute(solution).to_json == student_solution
-      ActiveRecord::Base.remove_connection(base)
-    rescue
-      correct = false
-    end
-    ActiveRecord::Base.establish_connection(:development)
+    correct = correct_exercise(params[:exercise_id], params[:student_solution])
     answeredexercise = Answeredexercise.new('answered' => params[:student_solution],
                                             'correct' => correct,
                                             'exercise_id' => params[:exercise_id],

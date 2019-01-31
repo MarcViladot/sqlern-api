@@ -23,6 +23,7 @@ gem 'simple_command'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'faker'
+gem 'apipie-rails'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
