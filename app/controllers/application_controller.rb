@@ -37,7 +37,16 @@ class ApplicationController < ActionController::API
   #   end
   # end
   def set_database
-    ActiveRecord::Base.establish_connection(:development)
+    #ActiveRecord::Base.establish_connection(:development)
+    # connection = ActiveRecord::Base.establish_connection(
+    #   :adapter  => "mysql2",
+    #   :host     => "localhost",
+    #   :username => "root",
+    #   :password => "root",
+    #   :database => "sqlern",
+    #   :port => "8889",
+    #   :socket => "/Applications/MAMP/tmp/mysql/mysql.sock"
+    # )
   end
 
   def set_current_user

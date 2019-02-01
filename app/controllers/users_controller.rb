@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
 
+  skip_before_action :authenticate_request, only: [:create, :confirm_email]
+
   def index
     if params[:me].present?
-      user = User.find(@current_user.id)
+      @user = User.find(@current_user.id)
     end
-    render json: user
   end
 
   def show

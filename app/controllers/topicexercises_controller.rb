@@ -37,7 +37,7 @@ class TopicexercisesController < ApplicationController
   private
 
   def topicexercise_params
-    params.permit()
+    params.permit(:exercise_id, :topic_id)
   end
 
 end

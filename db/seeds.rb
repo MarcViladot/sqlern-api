@@ -25,7 +25,7 @@ end
 
 Topic.create([{name: 'Subquery'}, {name: 'Joins'}, {name: 'Order'}, {name: 'Group'}, {name: 'Where'}])
 
-Conceptualmodel.create({url: 'https://res.cloudinary.com/dpsci3hpd/image/upload/v1547994386/cm.png', user_id: 1})
+Conceptualmodel.create({name: 'model 1', url: 'https://res.cloudinary.com/dpsci3hpd/image/upload/v1547994386/cm.png', user_id: 1})
 
 Exercise.create([
                   {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
