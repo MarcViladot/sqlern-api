@@ -36,7 +36,7 @@ class ConceptualmodelsController < ApplicationController
   private
 
   def conceptualmodel_params
-    params.permit()
+    params.permit(:url, :name).merge(user_id: @current_user.id)
   end
 
 end

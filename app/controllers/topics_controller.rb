@@ -37,7 +37,7 @@ class TopicsController < ApplicationController
   private
 
   def topic_params
-    params.permit()
+    params.permit(:name)
   end
 
 end
