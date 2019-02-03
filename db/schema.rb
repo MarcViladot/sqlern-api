@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_01_095444) do
+ActiveRecord::Schema.define(version: 2019_02_03_105504) do
 
   create_table "answeredexercises", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "answered"
@@ -110,6 +110,15 @@ ActiveRecord::Schema.define(version: 2019_02_01_095444) do
     t.index ["topic_id"], name: "index_topicexercises_on_topic_id"
   end
 
+  create_table "topicquizzs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "topic_id"
+    t.bigint "quizz_id"
+    t.index ["quizz_id"], name: "index_topicquizzs_on_quizz_id"
+    t.index ["topic_id"], name: "index_topicquizzs_on_topic_id"
+  end
+
   create_table "topics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -146,4 +155,6 @@ ActiveRecord::Schema.define(version: 2019_02_01_095444) do
   add_foreign_key "quizzs", "users"
   add_foreign_key "topicexercises", "exercises"
   add_foreign_key "topicexercises", "topics"
+  add_foreign_key "topicquizzs", "quizzs"
+  add_foreign_key "topicquizzs", "topics"
 end

@@ -37,7 +37,7 @@ class QuizzexercisesController < ApplicationController
   private
 
   def quizzexercise_params
-    params.permit()
+    params.permit(:exercise_id, :quizz_id)
   end
 
 end

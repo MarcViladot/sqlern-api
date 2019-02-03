@@ -33,11 +33,11 @@ Exercise.create([
                   {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
                   {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
                   {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1}
+                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1},
+                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1},
+                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1},
+                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1},
+                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1}
 ])
 
 Topicexercise.create([

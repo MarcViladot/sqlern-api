@@ -8,7 +8,13 @@ class QuizzsController < ApplicationController
 
   def create
     quizz = Quizz.new(quizz_params)
-    if Quizz.save
+    if quizz.save
+      topics = params[:topics].split("+")
+      topics.first.each do |t|
+        topic = Topic.find_by_name(t)
+        Topicquizz.new('quizz_id' => quizz.id,
+                       'topic_id' => topic.id).save
+      end
       render json: quizz
     else
       render json: quizz.errors
@@ -38,7 +44,7 @@ class QuizzsController < ApplicationController
   private
 
   def quizz_params
-    params.permit()
+    params.permit(:name, :public).merge(user_id: @current_user.id)
   end
 
 end

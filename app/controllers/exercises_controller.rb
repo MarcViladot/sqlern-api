@@ -30,6 +30,12 @@ class ExercisesController < ApplicationController
     render json: exercise
   end
 
+  api :GET, "/exercises/set/publics", "Find public exercises"
+  header 'Authorization', 'Auth header', :required => true
+  def index_public
+    @exercises = Exercise.where("exercises.public = true")
+  end
+
   api :GET, "/exercises/:id", "Find exercise by id"
   param :id, :number, desc: 'id of the exercise', :required => true
   header 'Authorization', 'Auth header', :required => true
@@ -43,7 +49,11 @@ class ExercisesController < ApplicationController
   header 'Authorization', 'Auth header', :required => true
   def index_set
     topics = params[:topics].split("+")
-    @exercises = Exercise.joins(:topics).where("topics.name IN (?) AND exercises.public = true", topics).sort_by { rand }.take(params[:limit].to_i)
+    if params[:limit] == '0'
+      @exercises = Exercise.joins(:topics).where("topics.name IN (?) AND exercises.public = true AND exercises.user_id != ?", topics, @current_user.id).uniq.sort_by { rand }
+    else
+      @exercises = Exercise.joins(:topics).where("topics.name IN (?) AND exercises.public = true AND exercises.user_id != ?", topics, @current_user.id).uniq.sort_by { rand }.take(params[:limit].to_i)
+    end
   end
 
   api :GET, "/exercises/set/intelligent", "Find exercises intelligent mode"

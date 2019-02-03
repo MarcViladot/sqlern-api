@@ -5,4 +5,7 @@ json.array!(@exercises.sort_by{ rand }) do |exercise|
 		json.(comment, :id, :comment)
 	end
 	json.topics exercise.topics
+	json.user do
+		json.(exercise.user, :id, :name, :last_name)
+	end
 end

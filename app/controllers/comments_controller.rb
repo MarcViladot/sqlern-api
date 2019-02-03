@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.permit()
+    params.permit(:comment, :exercise_id).merge(user_id: @current_user.id)
   end
 
 end
