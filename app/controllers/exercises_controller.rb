@@ -10,11 +10,17 @@ class ExercisesController < ApplicationController
   param :statement, String, desc: 'statement of the exercise', :required => true
   param :solution, String, desc: 'solution of the exercise', :required => true
   param :public, :boolean, desc: 'exercise is public', :required => true
+  param :topics, String, desc: 'ids of topics of the exercise', :required => true
   param :conceptualmodel_id, :number, desc: 'id of the conceptual model', :required => true
   header 'Authorization', 'Auth header', :required => true
   def create
     exercise = Exercise.new(exersice_params)
     if exercise.save
+      topics = params[:topics].split("+")
+      topics.each do |id|
+        Topicexercise.new('exercise_id' => exercise.id,
+                          'topic_id' => id).save
+      end
       render json: exercise
     else
       render json: exercise.errors
