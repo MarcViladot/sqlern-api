@@ -1,9 +1,15 @@
 class ConceptualmodelsController < ApplicationController
+
+  api :GET, "/conceptualmodels", "Get all conceptual models"
   def index
     conceptualmodels = Conceptualmodel.all
     render json: conceptualmodels
   end
 
+  api :POST, "/conceptualmodels", "Create Conceptual model"
+  param :name, String, desc: 'name of the model', :required => true
+  param :url, String, desc: 'url of the image', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def create
     conceptualmodel = Conceptualmodel.new(conceptualmodel_params)
     if conceptualmodel.save
@@ -13,12 +19,18 @@ class ConceptualmodelsController < ApplicationController
     end
   end
 
+  api :DELETE, "/conceptualmodels/:id", "Delete Conceptual model by id"
+  param :id, :number, desc: 'id of the model', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def destroy
     conceptualmodel = Conceptualmodel.find(params[:id])
     conceptualmodel.destroy
     render json: conceptualmodel
   end
 
+  api :GET, "/conceptualmodels/:id", "Show Conceptual model by id"
+  param :id, :number, desc: 'id of the model', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def show
     conceptualmodel = Conceptualmodel.find(params[:id])
     render json: conceptualmodel

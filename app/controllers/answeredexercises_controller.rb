@@ -1,5 +1,7 @@
 class AnsweredexercisesController < ApplicationController
 
+  api :GET, "/answeredexercises", "Get all answered exercise"
+  header 'Authorization', 'Auth header', :required => true
   def index
     answeredexercise = Answeredexercise.all
     render json: answeredexercises
@@ -23,12 +25,18 @@ class AnsweredexercisesController < ApplicationController
     end
   end
 
+  api :GET, "/answeredexercises/:id", "Delete answered exercise by id"
+  param :id, :number, desc: 'id of the answered exercise', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def destroy
     answeredexercise = Answeredexercise.find(params[:id])
     answeredexercise.destroy
     render json: answeredexercise
   end
 
+  api :GET, "/answeredexercises/:id", "Get answered exercise by id"
+  param :id, :number, desc: 'id of the answered exercise', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def show
     answeredexercise = Answeredexercise.find(params[:id])
     render json: answeredexercise

@@ -21,6 +21,9 @@ class GeneratedquizzsController < ApplicationController
     end
   end
 
+  api :DELETE, "/generatedquizzs/:id", "Delete generated quizz by id"
+  param :id, :number, desc: 'id of the generated quizz', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def destroy
     generatedquizz = Generatedquizz.find(params[:id])
     generatedquizz.destroy

@@ -2,6 +2,8 @@ class AnsweredquizzsController < ApplicationController
 
   require 'json'
 
+  api :GET, "/answeredquizzs", "Get all answered quizzs"
+  header 'Authorization', 'Auth header', :required => true
   def index
     answeredquizzs = Answeredquizz.all
     render json: answeredquizzs
@@ -30,12 +32,18 @@ class AnsweredquizzsController < ApplicationController
     answeredquizz.update_column(:note, note)
   end
 
+  api :DELETE, "/answeredquizzs/:id", "Delete Answered quizz"
+  param :id, :number, desc: 'id of the generated quizz', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def destroy
     answeredquizz = Answeredquizz.find(params[:id])
     answeredquizz.destroy
     render json: answeredquizz
   end
 
+  api :GET, "/answeredquizzs/:id", "Get Answered quizz"
+  param :id, :number, desc: 'id of the generated quizz', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def show
     answeredquizz = Answeredquizz.find(params[:id])
     render json: answeredquizz

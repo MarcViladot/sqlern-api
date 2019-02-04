@@ -1,10 +1,15 @@
 class CommentsController < ApplicationController
 
+  api :GET, "/comments", "Get all comments"
   def index
     comments = Comment.all
     render json: comments
   end
 
+  api :POST, "/comments", "Create comment"
+  param :exercise_id, String, desc: 'id of the exercise', :required => true
+  param :comment, String, desc: 'comment or hint', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def create
     comment = Comment.new(comment_params)
     if comment.save
@@ -14,12 +19,18 @@ class CommentsController < ApplicationController
     end
   end
 
+  api :DELETE, "/comments/:id", "Delete comment by id"
+  param :id, :number, desc: 'id of the comment', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def destroy
     comment = Comment.find(params[:id])
     comment.destroy
     render json: comment
   end
 
+  api :GET, "/comments/:id", "Show comment by id"
+  param :id, :number, desc: 'id of the comment', :required => true
+  header 'Authorization', 'Auth header', :required => true
   def show
     comment = Comment.find(params[:id])
     render json: comment
