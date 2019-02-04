@@ -6,6 +6,12 @@ class QuizzsController < ApplicationController
     render json: quizzs
   end
 
+  # api :POST, "/quizzs", "Create quizz"
+  # param :name, String, desc: 'name of the quizz', :required => true
+  # param :solution, String, desc: 'solution of the exercise', :required => true
+  # param :public, :boolean, desc: 'exercise is public', :required => true
+  # param :conceptualmodel_id, :number, desc: 'id of the conceptual model', :required => true
+  # header 'Authorization', 'Auth header', :required => true
   def create
     quizz = Quizz.new(quizz_params)
     if quizz.save
@@ -25,6 +31,14 @@ class QuizzsController < ApplicationController
     quizz = Quizz.find(params[:id])
     quizz.destroy
     render json: quizz
+  end
+
+  api :GET, "/quizz/set/:topics", "Find quizzs by topics"
+  param :topics, String, desc: 'topics of the exercises', :required => true
+  header 'Authorization', 'Auth header', :required => true
+  def index_set
+    topics = params[:topics].split("+")
+    @quizzs = Quizz.joins(:topics).where("topics.name IN (?) AND quizzs.public = true AND quizzs.user_id != ?", topics, @current_user.id).uniq
   end
 
   def show

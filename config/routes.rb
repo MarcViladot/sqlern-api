@@ -33,6 +33,9 @@ Rails.application.routes.draw do
   get 'exercises/set/intelligent/', to: 'exercises#index_set_intelligent'
   get 'exercises/set/:limit/:topics', to: 'exercises#index_set'
 
+  #Quizzs
+  get 'quizzs/set/:topics', to: 'quizzs#index_set'
+
 
 
 
