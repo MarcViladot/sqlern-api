@@ -1,5 +1,8 @@
 class CommentsController < ApplicationController
 
+  before_action :authenticate_teacher
+  before_action :authenticate_admin, only: [:index]
+
   api :GET, "/comments", "Get all comments"
   def index
     comments = Comment.all

@@ -1,5 +1,8 @@
 class ConceptualmodelsController < ApplicationController
 
+  before_action :authenticate_teacher
+  before_action :authenticate_admin, only: [:index]
+
   api :GET, "/conceptualmodels", "Get all conceptual models"
   def index
     conceptualmodels = Conceptualmodel.all

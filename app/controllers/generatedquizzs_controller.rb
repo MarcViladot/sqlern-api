@@ -1,6 +1,7 @@
 class GeneratedquizzsController < ApplicationController
 
-  #before_action :authenticate_request, only: [:show]
+  before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_teacher
 
   api :GET, "/generatedquizzs", "Get all Generated Quizzs"
   header 'Authorization', 'Auth header', :required => true

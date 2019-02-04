@@ -1,5 +1,10 @@
 class ExercisesController < ApplicationController
 
+  before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_teacher, only: [:create, :destroy, :index_public, :show, :update]
+  before_action :authenticate_student, only: [:index_set_intelligent]
+
+
   api :GET, "/exercises", "Get all exercises"
   def index
     exercises = Exercise.all

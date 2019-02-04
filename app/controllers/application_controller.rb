@@ -2,8 +2,8 @@ class ApplicationController < ActionController::API
   include ActionController::ImplicitRender
   include ActionController::Helpers
 
-  before_action :set_database, :set_current_user, :authenticate_request
-  helper_method :authenticate_confirmed_user
+  before_action :set_current_user, :authenticate_request
+  helper_method :authenticate_confirmed_user, :authenticate_teacher, :authenticate_student, :authenticate_admin
 
   def authenticate_confirmed_user
     unless @current_user.email_confirmed == true
@@ -31,22 +31,22 @@ class ApplicationController < ActionController::API
 
   private
 
-  # def authenticate_admin
-  #   unless @current_user.role == 1
-  #     render json: {error: 'Not Authorized'}, status: :unauthorized
-  #   end
-  # end
-  def set_database
-    #ActiveRecord::Base.establish_connection(:development)
-    # connection = ActiveRecord::Base.establish_connection(
-    #   :adapter  => "mysql2",
-    #   :host     => "localhost",
-    #   :username => "root",
-    #   :password => "root",
-    #   :database => "sqlern",
-    #   :port => "8889",
-    #   :socket => "/Applications/MAMP/tmp/mysql/mysql.sock"
-    # )
+  def authenticate_teacher
+    unless @current_user.role == 1
+      render json: {error: 'Not Authorized'}, status: :unauthorized
+    end
+  end
+
+  def authenticate_student
+    unless @current_user.role == 0
+      render json: {error: 'Not Authorized'}, status: :unauthorized
+    end
+  end
+
+  def authenticate_admin
+    unless @current_user.role == 3
+      render json: {error: 'Not Authorized'}, status: :unauthorized
+    end
   end
 
   def set_current_user

@@ -1,5 +1,7 @@
 class QuizzexercisesController < ApplicationController
 
+  before_action :authenticate_admin, only: [:index]
+
   api :GET, "/quizzexercises", "Get all exercices of quizz"
   header 'Authorization', 'Auth header', :required => true
   def index

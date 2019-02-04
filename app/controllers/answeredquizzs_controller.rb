@@ -1,6 +1,8 @@
 class AnsweredquizzsController < ApplicationController
 
   require 'json'
+  before_action :authenticate_student, only: [:create]
+  before_action :authenticate_admin, only: [:index]
 
   api :GET, "/answeredquizzs", "Get all answered quizzs"
   header 'Authorization', 'Auth header', :required => true

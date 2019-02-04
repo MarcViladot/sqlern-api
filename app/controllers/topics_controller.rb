@@ -1,5 +1,7 @@
 class TopicsController < ApplicationController
 
+  before_action :authenticate_admin
+
   api :GET, "/topics", "Get all topics"
   def index
     topics = Topic.all

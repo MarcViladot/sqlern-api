@@ -1,6 +1,9 @@
 class QuizzsController < ApplicationController
 
   require 'json'
+  before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_teacher
+  before_action :authenticate_admin, only: [:index]
 
   api :GET, "/quizzs", "Show all the quizzs"
   def index

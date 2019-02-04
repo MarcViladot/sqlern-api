@@ -1,5 +1,7 @@
 class TablesController < ApplicationController
 
+  before_action :authenticate_teacher
+
   api :POST, "/create-tables", "Create tables in database"
   param :sql_query, String, desc: 'Creation query', :required => true
   header 'Authorization', 'Auth header', :required => true
