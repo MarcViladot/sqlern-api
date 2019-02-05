@@ -1,6 +1,6 @@
 class TopicsController < ApplicationController
 
-  before_action :authenticate_admin
+  before_action :authenticate_admin, only: [:create, :destroy, :show, :update]
 
   api :GET, "/topics", "Get all topics"
   def index

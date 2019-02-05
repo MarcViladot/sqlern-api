@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :conceptualmodels
   has_many :quizzs
   has_many :generatedquizzs
+  has_many :quizz_votes
 
   # STUDENT
   has_many :answeredexercises

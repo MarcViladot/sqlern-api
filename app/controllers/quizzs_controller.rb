@@ -46,6 +46,27 @@ class QuizzsController < ApplicationController
     render json: quizz
   end
 
+  api :POST, "/quizzs/upvote/:quizz_id", "Upvote Quizz"
+  param :quizz_id, :number, :required => true
+  header 'Authorization', 'Auth header', :required => true
+  def upvote
+    voted = QuizzVote.create(params.permit(:quizz_id).merge(user_id: @current_user.id))
+    if voted.save
+      render json: voted
+    else
+      render json: voted.errors
+    end
+  end
+
+  api :DELETE, "/quizzs/downvote/:quizz_id", "Unvote Quizz"
+  param :quizz_id, :number, :required => true
+  header 'Authorization', 'Auth header', :required => true
+  def downvote
+    voted = QuizzVote.find_by(user_id: @current_user.id, quizz_id: params[:quizz_id])
+    voted.destroy
+    render json: voted
+  end
+
   api :GET, "/quizzs/set/:topics", "Find quizzs by topics"
   param :topics, String, desc: 'topics of the exercises', :required => true
   header 'Authorization', 'Auth header', :required => true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_105504) do
+ActiveRecord::Schema.define(version: 2019_02_05_130819) do
 
   create_table "answeredexercises", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "answered"
@@ -83,6 +83,15 @@ ActiveRecord::Schema.define(version: 2019_02_03_105504) do
     t.index ["answeredquizz_id"], name: "index_joinanswereds_on_answeredquizz_id"
   end
 
+  create_table "quizz_votes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "quizz_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quizz_id"], name: "index_quizz_votes_on_quizz_id"
+    t.index ["user_id"], name: "index_quizz_votes_on_user_id"
+  end
+
   create_table "quizzexercises", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "exercise_id"
     t.datetime "created_at", null: false
@@ -150,6 +159,8 @@ ActiveRecord::Schema.define(version: 2019_02_03_105504) do
   add_foreign_key "generatedquizzs", "users"
   add_foreign_key "joinanswereds", "answeredexercises"
   add_foreign_key "joinanswereds", "answeredquizzs"
+  add_foreign_key "quizz_votes", "quizzs"
+  add_foreign_key "quizz_votes", "users"
   add_foreign_key "quizzexercises", "exercises"
   add_foreign_key "quizzexercises", "quizzs"
   add_foreign_key "quizzs", "users"
