@@ -35,6 +35,8 @@ Rails.application.routes.draw do
 
   #Quizzs
   get 'quizzs/set/:topics', to: 'quizzs#index_set'
+  post 'quizzs/upvote/:quizz_id', to: 'quizzs#upvote'
+  delete 'quizzs/downvote/:quizz_id', to: 'quizzs#downvote'
 
 
 

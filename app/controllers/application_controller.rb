@@ -11,6 +11,8 @@ class ApplicationController < ActionController::API
     end
   end
 
+
+
   def correct_exercise(exercise_id, student_solution)
     connection = ActiveRecord::Base.establish_connection(:development)
     solution = Exercise.find(params[:exercise_id]).solution
