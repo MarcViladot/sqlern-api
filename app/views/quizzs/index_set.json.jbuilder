@@ -1,4 +1,4 @@
-json.array!(@quizzs.sort_by{ rand }) do |quizz|
+json.array!(@quizzs.sort_by{|o| o.quizz_votes.count.to_i}.reverse!) do |quizz|
 	json.extract! quizz, :id, :name, :public, :created_at, :updated_at
 	json.topics quizz.topics
 	json.votes quizz.quizz_votes.count.to_i

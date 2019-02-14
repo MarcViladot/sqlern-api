@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
   include ActionController::ImplicitRender
   include ActionController::Helpers
 
+  # before_action :set_database, :set_current_user, :authenticate_request
   before_action :set_current_user, :authenticate_request
   helper_method :authenticate_confirmed_user, :authenticate_teacher, :authenticate_student, :authenticate_admin
 
@@ -11,16 +12,14 @@ class ApplicationController < ActionController::API
     end
   end
 
-
-
   def correct_exercise(exercise_id, student_solution)
     connection = ActiveRecord::Base.establish_connection(:development)
-    solution = Exercise.find(params[:exercise_id]).solution
+    solution = Exercise.find(exercise_id).solution
     ActiveRecord::Base.remove_connection(connection)
 
     base = ActiveRecord::Base.establish_connection(:development_aux)
     begin
-      student_solution = base.connection.execute(params[:student_solution]).first
+      student_solution = base.connection.execute(student_solution).first
       teacher_solution = base.connection.execute(solution).first
       correct = student_solution.size == teacher_solution.size and ((student_solution - teacher_solution) + (teacher_solution - student_solution)).blank?
       ActiveRecord::Base.remove_connection(base)
@@ -32,6 +31,10 @@ class ApplicationController < ActionController::API
   end
 
   private
+
+  def set_database
+    ActiveRecord::Base.establish_connection(:development)
+  end
 
   def authenticate_teacher
     unless @current_user.role == 1

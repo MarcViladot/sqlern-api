@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   post 'quizzs/upvote/:quizz_id', to: 'quizzs#upvote'
   delete 'quizzs/downvote/:quizz_id', to: 'quizzs#downvote'
 
+  #Answered Exercices
+  post 'asd', to: 'answeredexercises#test'
 
 
 

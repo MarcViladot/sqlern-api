@@ -10,3 +10,7 @@ json.exercises @quizz.quizzexercises do |quizz_exercise|
 		json.(comment, :id, :comment)
 	end
 end
+json.generated false
+@quizz.generatedquizzs.each do |generated|
+	json.generated true if generated.user.id == @current_user.id
+end

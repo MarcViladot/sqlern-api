@@ -1,6 +1,6 @@
 class AnsweredexercisesController < ApplicationController
 
-  before_action :authenticate_student, only: [:create]
+  #before_action :authenticate_student, only: [:create]
   before_action :authenticate_admin, only: [:index]
 
   api :GET, "/answeredexercises", "Get all answered exercise"
@@ -26,6 +26,17 @@ class AnsweredexercisesController < ApplicationController
     else
       render json: answeredexercise.errors
     end
+  end
+
+  def test
+
+    base = ActiveRecord::Base.establish_connection(:development_aux)
+    solution = base.connection.execute(params[:student_solution])
+    ActiveRecord::Rollback
+    render json: solution
+    ActiveRecord::Base.establish_connection(:development)
+
+
   end
 
   api :GET, "/answeredexercises/:id", "Delete answered exercise by id"
