@@ -9,9 +9,27 @@ if @user.role == 1 #Teacher
 		end
 	end
 	json.comments @user.comments
-	json.quizzs @user.quizzs
+	json.quizzs @user.quizzs.each do |quizz|
+		json.(quizz, :id, :name, :public, :created_at, :updated_at)
+		json.gtimes quizz.generatedquizzs.count.to_i
+	end
 	json.conceptualmodels @user.conceptualmodels
-	json.generatedquizzs @user.generatedquizzs
+	json.generatedquizzs do
+		json.array!(@user.generatedquizzs.sort_by{|o| o.created_at}.reverse!) do |gquizz|
+			json.(gquizz, :id, :code, :created_at)
+			json.answers gquizz.answeredquizzs.count.to_i
+			json.user do
+				json.(gquizz.user, :id, :name, :last_name)
+			end
+			json.answeredquizzs gquizz.answeredquizzs.each do |aquizz|
+				json.(aquizz, :id, :note, :created_at)
+				json.length aquizz.generatedquizz.quizz.exercises.length
+				json.user do
+					json.(aquizz.user, :id, :name, :last_name)
+				end
+			end
+		end
+	end
 else
 	json.exercises do
 		json.array!(@user.answeredexercises.sort_by{|o| o.created_at}.reverse!) do |exercise|
