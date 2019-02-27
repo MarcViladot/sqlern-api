@@ -1,7 +1,7 @@
 class ExercisesController < ApplicationController
 
   before_action :authenticate_admin, only: [:index]
-  before_action :authenticate_teacher, only: [:create, :destroy, :index_public, :show, :update]
+  before_action :authenticate_teacher, only: [:create, :destroy, :show, :update]
   before_action :authenticate_student, only: [:index_set_intelligent]
 
 
@@ -19,7 +19,7 @@ class ExercisesController < ApplicationController
   param :conceptualmodel_id, :number, desc: 'id of the conceptual model', :required => true
   header 'Authorization', 'Auth header', :required => true
   def create
-    exercise = Exercise.new(exersice_params)
+    exercise = Exercise.new(exercise_params)
     if exercise.save
       topics = params[:topics].split("+")
       topics.each do |id|
@@ -44,7 +44,14 @@ class ExercisesController < ApplicationController
   api :GET, "/exercises/set/publics", "Find public exercises"
   header 'Authorization', 'Auth header', :required => true
   def index_public
-    @exercises = Exercise.where("exercises.public = true")
+    @exercises = Exercise.where("exercises.public = true").uniq.sort_by { rand }
+  end
+
+  api :GET, "/exercises/set/publics/:limit", "Find public exercises with limit"
+  param :limit, :number, desc: 'number of exercises to find', :required => true
+  header 'Authorization', 'Auth header', :required => true
+  def index_set_public
+    @exercises = Exercise.where("exercises.public = true").uniq.sort_by { rand }.take(params[:limit].to_i)
   end
 
   api :GET, "/exercises/:id", "Find exercise by id"
@@ -82,7 +89,7 @@ class ExercisesController < ApplicationController
       end
     end
     topics = topics_hash.keys.take(3)
-    @exercises = Exercise.joins(:topics).where("topics.name IN (?)", topics).sort_by { rand }.take(25)
+    @exercises = Exercise.joins(:topics).where("topics.name IN (?)", topics).sort_by { rand }.uniq.take(25)
   end
 
   api :PUT, "/exercises/:id", "Update exercise by id"
@@ -94,7 +101,7 @@ class ExercisesController < ApplicationController
   header 'Authorization', 'Auth header', :required => true
   def update
     exercise = Exercise.find(params[:id])
-    if exercise.update_attributes(x_params)
+    if exercise.update_attributes(exercise_params)
       render json: exercise
     else
       render json: exercise.errors
@@ -103,7 +110,7 @@ class ExercisesController < ApplicationController
 
   private
 
-  def exersice_params
+  def exercise_params
     params.permit(:statement, :solution, :public, :conceptualmodel_id).merge(user_id: @current_user.id)
   end
 

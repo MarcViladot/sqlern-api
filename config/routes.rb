@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
   #Exercises
   get 'exercises/set/publics', to: 'exercises#index_public'
+  get 'exercises/set/publics/:limit', to: 'exercises#index_set_public'
   get 'exercises/set/intelligent/', to: 'exercises#index_set_intelligent'
   get 'exercises/set/:limit/:topics', to: 'exercises#index_set'
 
