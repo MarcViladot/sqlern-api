@@ -4,6 +4,7 @@ if @user.role == 1 #Teacher
 		json.(exercise, :id, :solution, :statement, :public, :conceptualmodel_id, :created_at, :updated_at)
 		json.topics exercise.topics
 		json.comments exercise.comments
+		json.conceptualmodel exercise.conceptualmodel
 		json.user do
 			json.(exercise.user, :id, :name, :last_name)
 		end
@@ -30,7 +31,7 @@ if @user.role == 1 #Teacher
 			end
 		end
 	end
-else
+else #Student
 	json.exercises do
 		json.array!(@user.answeredexercises.sort_by{|o| o.created_at}.reverse!) do |exercise|
 			json.(exercise, :id, :answered, :correct, :created_at, :updated_at)
@@ -55,6 +56,10 @@ else
 				end
 			end
 		end
+	end
+	json.answereds do
+		json.correct @user.answeredexercises.select{ |exercise| exercise[:correct] == true }.count.to_i
+		json.incorrect @user.answeredexercises.select{ |exercise| exercise[:correct] == false }.count.to_i
 	end
 end 
 
