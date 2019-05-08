@@ -2,6 +2,7 @@ json.extract! @quizz, :id, :name, :public, :created_at, :updated_at
 json.user do 
 	json.(@quizz.user, :id, :name, :last_name)
 end
+json.topics @quizz.topics
 json.exercises @quizz.quizzexercises do |quizz_exercise|
 	json.(quizz_exercise.exercise, :id, :statement, :public, :solution)
 	json.conceptualmodel quizz_exercise.exercise.conceptualmodel

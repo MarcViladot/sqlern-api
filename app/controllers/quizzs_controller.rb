@@ -14,7 +14,7 @@ class QuizzsController < ApplicationController
   param :name, String, desc: 'name of the quizz', :required => true
   param :topics, String, desc: 'topics of the quizz', :required => true
   param :public, :boolean, desc: 'quizz is public', :required => true
-  param :exercises, String, desc: 'Json stringify of answered exercises', :required => true
+  param :exercises, String, desc: 'Json stringify of exercises', :required => true
   header 'Authorization', 'Auth header', :required => true
   def create
     quizz = Quizz.new(quizz_params)
@@ -68,10 +68,12 @@ class QuizzsController < ApplicationController
 
   api :GET, "/quizzs/set/:topics", "Find quizzs by topics"
   param :topics, String, desc: 'topics of the exercises', :required => true
+  param :name, String, desc: 'name of the quizz', :required => true
   header 'Authorization', 'Auth header', :required => true
   def index_set
     topics = params[:topics].split("+")
-    @quizzs = Quizz.joins(:topics).where("topics.name IN (?) AND quizzs.public = true AND quizzs.user_id != ?", topics, @current_user.id).uniq
+    puts params[:name]
+    @quizzs = Quizz.joins(:topics).where("topics.name IN (?) AND quizzs.public = true AND quizzs.user_id != ? AND quizzs.name LIKE ?", topics, @current_user.id, "%#{params[:name]}%").uniq
   end
 
   api :GET, "/quizzs/:id", "Find quizz by id"

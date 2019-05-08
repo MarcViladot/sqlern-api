@@ -10,5 +10,14 @@ json.quizz do
 		end
 	end
 end
+if @current_user.role == 1 #Teacher
+	json.student_answers @generatedquizz.answeredquizzs do |aquizz|
+		json.(aquizz, :id, :note, :created_at)
+		json.length @generatedquizz.quizz.exercises.length
+		json.user do 
+			json.(aquizz.user, :id, :name, :last_name)
+		end
+	end
+end
 
 

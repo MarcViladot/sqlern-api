@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
   end
 
   api :POST, "/comments", "Create comment"
-  param :exercise_id, String, desc: 'id of the exercise', :required => true
+  param :exercise_id, :number, desc: 'id of the exercise', :required => true
   param :comment, String, desc: 'comment or hint', :required => true
   header 'Authorization', 'Auth header', :required => true
   def create

@@ -8,5 +8,4 @@ class Quizz < ApplicationRecord
 
   has_many :topicquizzs, dependent: :delete_all
   has_many :topics, through: :topicquizzs
-
 end

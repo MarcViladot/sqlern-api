@@ -35,8 +35,7 @@ class AnsweredquizzsController < ApplicationController
       Joinanswered.new('answeredquizz_id' => @answeredquizz.id,
                        'answeredexercise_id' => answeredexercise.id).save
     end
-    note = total
-    @answeredquizz.update_column(:note, note)
+    @answeredquizz.update_column(:note, total)
   end
 
   api :DELETE, "/answeredquizzs/:id", "Delete Answered quizz"

@@ -13,73 +13,70 @@ solution = "SELECT *
 FROM guests"
 
 User.create(name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: 'tanja@hotmail.com', role: 1, 'email_confirmed': 1, password: '12345', password_confirmation: '12345')
-User.create(name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: 'marcviladot@hotmail.com', role: 0, 'email_confirmed': 1, password: '12345', password_confirmation: '12345')
-4.times do
+10.times do
   User.create(name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.free_email, role: 1, password: '12345', password_confirmation: '12345')
 end
 
-4.times do
+User.create(name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: 'marcviladot@hotmail.com', role: 0, 'email_confirmed': 1, password: '12345', password_confirmation: '12345') #12
+10.times do
   User.create(name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.free_email, role: 0, password: '12345', password_confirmation: '12345')
 end
 
 
-Topic.create([{name: 'Subquery'}, {name: 'Joins'}, {name: 'Order'}, {name: 'Group'}, {name: 'Where'}])
+Topic.create([{name: 'Subquery'}, {name: 'Joins'}, {name: 'Order'}, {name: 'Group'}, {name: 'Where'},
+              {name: 'Count'}, {name: 'AVG'}, {name: 'Having'}, {name: 'Union'}, {name: 'Between'}])
 
-Conceptualmodel.create({name: 'model 1', url: 'https://res.cloudinary.com/dpsci3hpd/image/upload/v1547994386/cm.png', user_id: 1})
+Conceptualmodel.create([{name: 'model 1', url: 'https://res.cloudinary.com/dpsci3hpd/image/upload/v1547994386/cm.png', user_id: 1},
+                        {name: 'model 2', url: 'https://res.cloudinary.com/dpsci3hpd/image/upload/v1556269508/data-center-relational-model.png', user_id: 1}])
 
-Exercise.create([
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 1, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1},
-                  {statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: 6, conceptualmodel_id: 1}
-])
+200.times do |i|
+  user = rand(1..10)
+  Exercise.create({statement: Faker::Lorem.paragraph, public: true, solution: solution, user_id: user, conceptualmodel_id: rand(1..2)})
+  Comment.create({comment: Faker::Lorem.sentence, user_id: user, exercise_id: i+1})
+  Topicexercise.create([{topic_id: rand(1..10), exercise_id: i+1},
+                        {topic_id: rand(1..10), exercise_id: i+1},
+                        {topic_id: rand(1..10), exercise_id: i+1}
+                        ])
+end
 
-Topicexercise.create([
-                       {topic_id: 2, exercise_id: 1},
-                       {topic_id: 3, exercise_id: 1},
-                       {topic_id: 1, exercise_id: 2},
-                       {topic_id: 2, exercise_id: 2},
-                       {topic_id: 1, exercise_id: 3},
-                       {topic_id: 3, exercise_id: 3},
-                       {topic_id: 2, exercise_id: 4},
-                       {topic_id: 5, exercise_id: 4},
-                       {topic_id: 2, exercise_id: 5},
-                       {topic_id: 2, exercise_id: 6},
-                       {topic_id: 1, exercise_id: 7},
-                       {topic_id: 2, exercise_id: 8},
-                       {topic_id: 3, exercise_id: 9},
-                       {topic_id: 4, exercise_id: 10}
-])
+20.times do |i|
+  Quizz.create({name: Faker::Lorem.sentence, public: true, user_id: rand(1..10)})
+  Topicquizz.create([{topic_id: rand(1..10), quizz_id: i+1},
+                     {topic_id: rand(1..10), quizz_id: i+1},
+                     {topic_id: rand(1..10), quizz_id: i+1}
+                     ])
+end
 
-Comment.create([
-                 {comment: Faker::Lorem.sentence, user_id: 1, exercise_id: 1},
-                 {comment: Faker::Lorem.sentence, user_id: 1, exercise_id: 1},
-                 {comment: Faker::Lorem.sentence, user_id: 1, exercise_id: 2},
-                 {comment: Faker::Lorem.sentence, user_id: 1, exercise_id: 3},
-                 {comment: Faker::Lorem.sentence, user_id: 1, exercise_id: 4}
-])
+20.times do |i|
+  Quizzexercise.create([{exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1},
+                        {exercise_id: rand(1..200), quizz_id: i+1}])
+end
 
-Quizz.create([
-               {name: Faker::Lorem.sentence, public: true, user_id: 1}
-])
 
-Quizzexercise.create([
-                       {exercise_id: 1, quizz_id: 1},
-                       {exercise_id: 2, quizz_id: 1},
-                       {exercise_id: 3, quizz_id: 1},
-                       {exercise_id: 4, quizz_id: 1},
-                       {exercise_id: 5, quizz_id: 1},
-                       {exercise_id: 6, quizz_id: 1},
-                       {exercise_id: 7, quizz_id: 1},
-                       {exercise_id: 8, quizz_id: 1},
-                       {exercise_id: 9, quizz_id: 1},
-                       {exercise_id: 10, quizz_id: 1}
-])
+5.times do |i|
+  Generatedquizz.create({user_id: 1, quizz_id: i+1})
+end
 
-Generatedquizz.create(user_id: 2, quizz_id: 1)
+
+100.times do |i|
+  Answeredexercise.create({answered: solution, correct: true, exercise_id: rand(1..200), user_id: rand(12..20)})
+end
+
+
+11.times do |i|
+  Answeredquizz.create({note: 10, generatedquizz_id: rand(1..5), user_id: rand(12..20)})
+end
+
+12.upto(20) do
+  10.times do |x|
+    Joinanswered.create({answeredexercise_id: rand(1..100), answeredquizz_id: x+1})
+  end
+end

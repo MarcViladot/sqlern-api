@@ -2,7 +2,6 @@ class Generatedquizz < ApplicationRecord
 
   before_create :generate_code
 
-
   belongs_to :quizz
   belongs_to :user
   has_many :answeredquizzs
