@@ -47,6 +47,15 @@ class AnsweredquizzsController < ApplicationController
     render json: answeredquizz
   end
 
+  api :GET, "/answeredquizzs/answered/:code", "Get if quizz is already answered"
+  param :code, String, desc: 'code of the generated quizz', :required => true
+  header 'Authorization', 'Auth header', :required => true
+  def is_answered
+    id = Generatedquizz.find_by_code(params[:code]).id
+    aquizz = Answeredquizz.where("user_id = ? AND generatedquizz_id = ?", @current_user.id, id)
+    render json: !aquizz.blank?
+  end
+
   api :GET, "/answeredquizzs/:id", "Get Answered quizz"
   param :id, :number, desc: 'id of the generated quizz', :required => true
   header 'Authorization', 'Auth header', :required => true

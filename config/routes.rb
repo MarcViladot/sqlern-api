@@ -42,6 +42,9 @@ Rails.application.routes.draw do
   #Answered Exercices
   post 'asd', to: 'answeredexercises#test'
 
+  #Answered Quizzs
+  get 'answeredquizzs/answered/:code', to: 'answeredquizzs#is_answered'
+
 
 
 end
